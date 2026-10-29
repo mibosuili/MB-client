@@ -1,13 +1,13 @@
-# MB Cloud Client
+# MB Client
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![Python versions: 3.10, 3.11](https://img.shields.io/badge/python-3.10%20%7C%203.11-blue)](pyproject.toml)
 
-A unified quantum SDK for experimental users, providing circuit construction,
-pulse compilation, result analysis, and remote job interfaces for MB Cloud.
+MB Client is a unified Python SDK for quantum algorithm developers and experimental quantum computing researchers.
 
-The SDK uses unified `Backend`, `Job`, and `ExecutionResult` interfaces to represent
-backends, jobs, and results.
+The SDK provides a flexible interface for quantum circuit construction, pulse-level programming, circuit-to-pulse compilation, visualization, and result analysis. It is designed to bridge high-level quantum algorithms and low-level experimental quantum control, enabling users to develop quantum programs at different levels of abstraction.
+
+MB Cloud Client also provides unified `Backend`, `Job`, and `ExecutionResult` interfaces for interacting with MB Cloud simulation and quantum hardware services.
 
 ## Current Availability
 
