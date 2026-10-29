@@ -1,5 +1,5 @@
 [project]
-name = "mb-client"
+name = "mibo-client"
 version = "0.1.0"
 description = "Client SDK for MB Cloud quantum experiments"
 authors = [
