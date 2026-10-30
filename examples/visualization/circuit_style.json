@@ -1,0 +1,22 @@
+{
+  "text": {
+    "control": "◆",
+    "barrier": "┆"
+  },
+  "mpl": {
+    "gate_facecolor": "#dff3e4",
+    "gate_edgecolor": "#237a57",
+    "measurement_facecolor": "#ffe8a3",
+    "barrier_color": "#b24c63"
+  },
+  "gates": {
+    "h": {
+      "label": "Had"
+    },
+    "custom_entangler": {
+      "label": "Ent",
+      "facecolor": "#cfe8ff",
+      "edgecolor": "#22577a"
+    }
+  }
+}

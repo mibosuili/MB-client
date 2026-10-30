@@ -1,0 +1,85 @@
+[project]
+site_name = "MB Client"
+site_description = "Build quantum circuits, explore pulses, and run remote experiments with MB Cloud."
+site_author = "Mibo SLabs"
+site_url = "https://cloud.mbslabs.tech/docs/"
+repo_url = "https://github.com/mibosuili/MB-client"
+repo_name = "mibosuili/MB-client"
+copyright = "&copy; 2026 MB Cloud. 保留所有权利。"
+docs_dir = "docs"
+site_dir = "site"
+dev_addr = "127.0.0.1:8001"
+extra_css = ["assets/stylesheets/extra.css"]
+nav = [
+  { "Home" = "index.md" },
+  { "Get started" = [
+    { "Installation" = "getting-started/installation.md" },
+    { "Quickstart" = "getting-started/quickstart.md" },
+    { "Connection and authentication" = "getting-started/configuration.md" },
+  ] },
+  { "Guides" = [
+    { "Circuits and qubits" = "guides/circuits.md" },
+    { "Jobs and measurement results" = "guides/jobs-and-results.md" },
+    { "Pulses and compilation" = "guides/pulses-and-compilation.md" },
+  ] },
+  { "Examples" = [
+    { "Production Simulator" = "examples/production-simulator.md" },
+  ] },
+  { "API reference" = [
+    { "MBCloudClient" = "api/client.md" },
+    { "QuantumCircuit and parameters" = "api/circuits.md" },
+    { "Jobs, options, and results" = "api/execution.md" },
+    { "Pulses and compilation" = "api/compilation.md" },
+    { "Serialization and errors" = "api/protocol.md" },
+  ] },
+]
+
+[project.theme]
+variant = "modern"
+language = "en"
+font = false
+features = [
+  "navigation.tabs", "navigation.sections", "navigation.indexes",
+  "navigation.top", "navigation.footer", "toc.follow",
+  "search.highlight", "content.code.copy", "content.tabs.link",
+]
+
+[project.theme.icon]
+logo = "lucide/atom"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "indigo"
+accent = "indigo"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "indigo"
+accent = "indigo"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[project.plugins.search]
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["src"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+allow_inspection = false
+docstring_style = "google"
+show_root_heading = true
+show_root_full_path = false
+show_source = false
+show_signature_annotations = true
+merge_init_into_class = true
+members_order = "source"
+show_if_no_docstring = true
+heading_level = 2
+
+[project.validation]
+invalid_links = "warn"
+invalid_link_anchors = "warn"
