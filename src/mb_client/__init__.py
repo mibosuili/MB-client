@@ -16,7 +16,7 @@
 
 from .client import MBCloudClient
 from .exceptions import ClientError, ServerConnectionError
-from .execution import MeasurementLevel
+from .execution import BackendInfo, MeasurementLevel
 from .execution import (ExecutionResult, Job, JobCancelledError,
                         JobExecutionError, JobStatus, ProgramResult,
                         RemoteBackend, RemoteJob, RunOptions)
@@ -24,6 +24,7 @@ from .circuit import QuantumCircuit
 from .protocol import decode_circuit, encode_circuit, decode_result, encode_result
 
 __all__ = [
+    "BackendInfo",
     "ClientError",
     "decode_circuit",
     "decode_result",

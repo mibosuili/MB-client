@@ -16,12 +16,12 @@ from .options import (MeasurementLevel, RunOptions, IQCenters)
 from .results import (ProgramResult, ExecutionResult)
 from .jobs import Job, JobStatus, JobExecutionError, JobCancelledError
 from .remote import RemoteBackend, RemoteJob, RemoteClient
-from .backends import (Backend, Programs, Program, ParameterBinds)
+from .backends import (Backend, BackendInfo, Programs, Program, ParameterBinds)
 from .sweep import (Sweep, SweepAxis, SweepMode, SweepValueMode)
 
 __all__ = [
     'MeasurementLevel', 'RunOptions', 'IQCenters', 'ProgramResult',
     'ExecutionResult', 'Job', 'JobStatus', 'JobExecutionError', 'JobCancelledError',
-    'Backend', 'Programs', 'RemoteBackend', 'RemoteJob', 'RemoteClient', 'Program',
+    'BackendInfo', 'Backend', 'Programs', 'RemoteBackend', 'RemoteJob', 'RemoteClient', 'Program',
     'ParameterBinds', 'Sweep', 'SweepAxis', 'SweepMode', 'SweepValueMode'
 ]

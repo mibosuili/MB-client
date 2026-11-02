@@ -15,7 +15,7 @@
 """Cloud execution through an injected service client"""
 from abc import ABC, abstractmethod
 from threading import Lock
-from .backends import Backend, Programs, snapshot_programs
+from .backends import Backend, BackendInfo, Programs, snapshot_programs
 from .jobs import Job, JobStatus
 from .options import RunOptions
 from .results import ExecutionResult
@@ -27,6 +27,10 @@ class RemoteClient(ABC):
     results raises TimeoutError, JobCancelledError or JobExecutionError.
     Services must preserve program order and circuit classical-bit mappings.
     """
+    def backend_info(self, *, backend_name: str) -> BackendInfo:
+        """Fetch native capabilities, when supported by the service adapter."""
+        raise NotImplementedError('Remote client does not expose capability metadata')
+
     @abstractmethod
     def submit(self, programs: Programs, *, backend_name: str,
                run_options: RunOptions) -> str:
@@ -111,6 +115,28 @@ class RemoteBackend(Backend):
     def __init__(self, client: RemoteClient, *, backend_name: str):
         self._client = client
         self._backend_name = backend_name
+        self._info: BackendInfo | None = None
+        self._info_lock = Lock()
+
+    def _fetch_info(self) -> BackendInfo:
+        info = self._client.backend_info(backend_name=self._backend_name)
+        if not isinstance(info, BackendInfo):
+            raise TypeError('backend_info must return BackendInfo')
+        return info
+
+    @property
+    def info(self) -> BackendInfo:
+        """Lazily fetch and cache a complete immutable capability snapshot."""
+        with self._info_lock:
+            if self._info is None:
+                self._info = self._fetch_info()
+            return self._info
+
+    def refresh_info(self) -> BackendInfo:
+        """Reload capabilities; a failed fetch preserves the previous snapshot."""
+        with self._info_lock:
+            self._info = self._fetch_info()
+            return self._info
 
     def run(self, programs: Programs, **run_options) -> RemoteJob:
         options = RunOptions().with_overrides(**run_options)

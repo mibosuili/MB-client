@@ -17,12 +17,13 @@
 from collections.abc import Sequence
 import time
 from typing import Any
+from urllib.parse import quote
 
 import requests
 
 from .conf.settings import settings
 from .exceptions import ServerConnectionError
-from .execution import (ExecutionResult, JobCancelledError, JobExecutionError,
+from .execution import (BackendInfo, ExecutionResult, JobCancelledError, JobExecutionError,
                         JobStatus, MeasurementLevel, Programs, RemoteBackend,
                         RemoteClient, RemoteJob, RunOptions)
 from .circuit import QuantumCircuit
@@ -34,6 +35,7 @@ DEFAULT_BASE_URL = "http://127.0.0.1:8000"
 
 ROUTES = {
     "system.ping": ("GET", "/api/v1/system/health/"),
+    "resource.capabilities": ("GET", "/api/v1/resources/{resource_id}/capabilities/"),
     "resource.list": ("GET", "/api/v1/resources/"),
     "user.me": ("GET", "/api/v1/user/me/"),
     "experiment.submit": ("POST", "/api/v1/jobs/"),
@@ -118,7 +120,22 @@ class MBCloudClient(RemoteClient):
         """Return the authenticated user's available machine time."""
         return self._request("user.me", {})
 
-    def backend(self, device: str):
+    def backend_info(self, *, backend_name: str) -> BackendInfo:
+        """Fetch native capabilities from the resource capabilities endpoint."""
+        payload = self._request('resource.capabilities', {
+            'resource_id': quote(backend_name, safe=''),
+        })
+        try:
+            return BackendInfo(
+                basis_gates=payload['basis_gates'],
+                qubits=payload['qubits'],
+                coupling_map=payload['coupling_map'],
+                is_simulator=payload['is_simulator'],
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ServerConnectionError('Server returned invalid backend capabilities') from exc
+
+    def backend(self, device: str) -> RemoteBackend:
         """Return a device-bound circuit backend."""
         if not device:
             raise ValueError("device must not be empty")
